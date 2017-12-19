@@ -36,8 +36,10 @@ SET (BUILD_WITH_INSTALL_RPATH 1)
 
 SET (LIB_TYPE SHARED)
 
-FIND_PACKAGE ( PythonLibs REQUIRED )
+SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake/Modules)
+
 FIND_PACKAGE ( PythonInterp REQUIRED )
+FIND_PACKAGE ( PythonLibs REQUIRED )
 FIND_PACKAGE ( Boost
 	COMPONENTS Python
 )
@@ -49,11 +51,31 @@ INCLUDE_DIRECTORIES (
 	PyImath
 	PyImathNumpy
 	${PYTHON_INCLUDE_PATH}
+    ${Boost_INCLUDE_DIRS}
 )
 
 LINK_DIRECTORIES ( ${ILMBASE_PACKAGE_PREFIX}/lib )
 MESSAGE ( "ILMBASE_PACKAGE_PREFIX = " ${ILMBASE_PACKAGE_PREFIX})
 
+LINK_DIRECTORIES ( ${Boost_LIBRARY_DIRS})
+MESSAGE ( "Boost Library Dir = " ${Boost_LIBRARY_DIRS})
+
+IF (${Boost_USE_STATIC_LIBS})
+    add_definitions(-DBOOST_PYTHON_STATIC_LIB)
+ENDIF ()
+
+STRING(REGEX REPLACE "-" "" BOOST_LIB_TOOLSET ${_boost_COMPILER})
+message("Boost lib toolset = " ${BOOST_LIB_TOOLSET})
+add_definitions(-DBOOST_LIB_TOOLSET=\"${BOOST_LIB_TOOLSET}\")
+#_boost_COMPILER=-vc140
+#-- MSVC_VERSION=1900
+
+#get_cmake_property(_variableNames VARIABLES)
+#foreach (_variableName ${_variableNames})
+#    message(STATUS "${_variableName}=${${_variableName}}")
+#endforeach()
+
+MESSAGE ("Toolset chosen = " ${CMAKE_GENERATOR_TOOLSET})
 
 SET (ILMBASE_LIBSUFFIX "")
 IF (NAMESPACE_VERSIONING)

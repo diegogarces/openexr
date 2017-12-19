@@ -1,0 +1,1 @@
+cmake -G "Visual Studio 14 2015 Win64" -DZLIB_LIBRARY=Z:\code\third_party\alembic\zlib-1.2.11\Release\zlibstatic.lib -DZLIB_INCLUDE_DIR=Z:\code\third_party\alembic\zlib-1.2.11 -DILMBASE_BUILD_SHARED_LIBS=0.
