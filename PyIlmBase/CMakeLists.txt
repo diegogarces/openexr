@@ -34,7 +34,14 @@ OPTION (NAMESPACE_VERSIONING "Use Namespace Versioning" ON)
 SET (CMAKE_MACOSX_RPATH 1)
 SET (BUILD_WITH_INSTALL_RPATH 1)
 
-SET (LIB_TYPE SHARED)
+# Allow the developer to select if Dynamic or Static libraries are built
+OPTION (BUILD_SHARED_LIBS "Build Shared Libraries" ON)
+# Set the LIB_TYPE variable to STATIC
+SET (LIB_TYPE STATIC)
+IF (BUILD_SHARED_LIBS)
+  # User wants to build Dynamic Libraries, so change the LIB_TYPE variable to CMake keyword 'SHARED'
+  SET (LIB_TYPE SHARED)
+ENDIF (BUILD_SHARED_LIBS)
 
 SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake/Modules)
 
@@ -43,6 +50,9 @@ FIND_PACKAGE ( PythonLibs REQUIRED )
 FIND_PACKAGE ( Boost
 	COMPONENTS Python
 )
+IF (Boost_FOUND)
+    message("Boost Found")
+ENDIF ()
 FIND_PACKAGE ( NumPy )
 
 INCLUDE_DIRECTORIES (

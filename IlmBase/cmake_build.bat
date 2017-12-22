@@ -1,0 +1,1 @@
+cmake -G "Visual Studio 14 2015 Win64" -DCMAKE_INSTALL_PREFIX=..\deploy -DBUILD_SHARED_LIBS=OFF ..

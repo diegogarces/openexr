@@ -29,13 +29,13 @@ elseif(__numpy_out)
   message(STATUS "Python executable not found.")
 endif(PYTHON_EXECUTABLE)
 
-find_path(PYTHON_NUMPY_INCLUDE_DIR numpy/arrayobject.h
+find_path(NUMPY_INCLUDE_DIRS numpy/arrayobject.h
   HINTS "${__numpy_path}" "${PYTHON_INCLUDE_PATH}" NO_DEFAULT_PATH)
 
-if(PYTHON_NUMPY_INCLUDE_DIR)
+if(NUMPY_INCLUDE_DIRS)
   set(PYTHON_NUMPY_FOUND 1 CACHE INTERNAL "Python numpy found")
-endif(PYTHON_NUMPY_INCLUDE_DIR)
+endif(NUMPY_INCLUDE_DIRS)
 
 include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(NumPy REQUIRED_VARS PYTHON_NUMPY_INCLUDE_DIR
+find_package_handle_standard_args(NumPy REQUIRED_VARS NUMPY_INCLUDE_DIRS
                                         VERSION_VAR __numpy_version)

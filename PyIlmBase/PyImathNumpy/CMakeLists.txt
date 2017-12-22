@@ -1,17 +1,25 @@
 
-ADD_LIBRARY ( imathnumpymodule ${LIB_TYPE}
+ADD_LIBRARY ( imathnumpy SHARED
     imathnumpymodule.cpp
 )
 
-SET_TARGET_PROPERTIES ( imathnumpymodule
-	PROPERTIES PREFIX "" SUFFIX ".so" BUILD_WITH_INSTALL_RPATH ON
-)
+IF (CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    SET_TARGET_PROPERTIES ( imathnumpy
+        PROPERTIES PREFIX "" SUFFIX ".so" BUILD_WITH_INSTALL_RPATH ON
+    )
+ELSE ()
+    SET_TARGET_PROPERTIES ( imathnumpy
+        PROPERTIES PREFIX "" SUFFIX ".pyd" BUILD_WITH_INSTALL_RPATH ON
+    )
+ENDIF()
+
+message("NumPy Include dirs = " ${NUMPY_INCLUDE_DIRS})
 
 INCLUDE_DIRECTORIES (
 	${NUMPY_INCLUDE_DIRS}
 )
 
-TARGET_LINK_LIBRARIES ( imathnumpymodule
+TARGET_LINK_LIBRARIES ( imathnumpy
 	PyImath
 	PyIex
 	Imath${ILMBASE_LIBSUFFIX}
@@ -19,7 +27,7 @@ TARGET_LINK_LIBRARIES ( imathnumpymodule
 	${Boost_LIBRARIES}
 )
 
-INSTALL ( TARGETS imathnumpymodule
+INSTALL ( TARGETS imathnumpy
 	DESTINATION lib/python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}/site-packages
 )
 
