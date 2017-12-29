@@ -26,6 +26,15 @@ set(CPACK_SOURCE_IGNORE_FILES
   "/.git*;/.cvs*;${CPACK_SOURCE_IGNORE_FILES}")
 INCLUDE ( CPack )
 
+# Allow the developer to select whether to use the Dynamic or Static runtime libraries
+OPTION (RUNTIME_STATIC "Static Runtime libraries" OFF)
+IF (RUNTIME_STATIC)
+    message("Configuring runtime static libraries")
+    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
+    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
+ENDIF()
+
+
 # Set this option to find the C++ libs with their namespaced versions
 # The python modules themselves are built without versioning
 OPTION (NAMESPACE_VERSIONING "Use Namespace Versioning" ON)
@@ -95,6 +104,7 @@ ENDIF ()
 ##########################
 ADD_SUBDIRECTORY ( PyIex )
 ADD_SUBDIRECTORY ( PyImath )
+ADD_SUBDIRECTORY ( PyImathsimple )
 
 IF (NUMPY_FOUND)
   ADD_SUBDIRECTORY ( PyImathNumpy )
